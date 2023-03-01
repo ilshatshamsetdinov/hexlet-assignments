@@ -57,6 +57,11 @@ class AppTest {
     }
 
     // BEGIN
-    
+    @Test
+    void testReversedSequence() {
+        String str = "fedcba";
+        String resultStr = ReversedSequence.toString("abcdef");
+        assertThat(str).isEqualTo(resultStr);
+    }
     // END
 }
