@@ -17,7 +17,12 @@ public class PairedTag extends Tag {
 
     @Override
     public String toString() {
-        return super.toString() + tagBody + "</" + super.name + ">";
+        StringBuilder stringBuilder = new StringBuilder(super.toString());
+        for (Tag e: tags) {
+            stringBuilder.append(e.toString());
+        }
+        stringBuilder.append(tagBody).append("</").append(super.name).append(">");
+        return stringBuilder.toString();
     }
 }
 // END
