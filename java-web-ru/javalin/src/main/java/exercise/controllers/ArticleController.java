@@ -91,6 +91,7 @@ public final class ArticleController {
                 .set("category_Id", categoryId)
                 .update();
         ctx.sessionAttribute("flash", "Статья успешно создана");
+        ctx.redirect("/articles");
         // END
     };
 
