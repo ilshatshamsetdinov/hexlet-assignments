@@ -111,7 +111,7 @@ public final class ArticleController {
         new QArticle()
                 .id.equalTo(id)
                 .delete();
-        ctx.redirect("articles/");
+        ctx.redirect("/articles");
         ctx.sessionAttribute("flash", "Статья успешно удалена");
         // END
     };
