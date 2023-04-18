@@ -89,7 +89,7 @@ public class ArticlesServlet extends HttpServlet {
                 .setFirstRow(offset)
                 .setMaxRows(articlesPerPage)
                 .orderBy()
-                        .title.asc()
+                        .id.asc()
                         .findPagedList();
         List<Article> articles = pagedArticles.getList();
         request.setAttribute("articles", articles);
