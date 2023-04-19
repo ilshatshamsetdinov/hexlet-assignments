@@ -17,11 +17,11 @@ public final class ArticleController {
         int offset = (page - 1) * rowsPerPage;
 
         PagedList<Article> pagedArticles = new QArticle()
-            .setFirstRow(offset)
-            .setMaxRows(rowsPerPage)
-            .orderBy()
+                .setFirstRow(offset)
+                .setMaxRows(rowsPerPage)
+                .orderBy()
                 .id.asc()
-            .findPagedList();
+                .findPagedList();
 
         List<Article> articles = pagedArticles.getList();
 
@@ -42,8 +42,8 @@ public final class ArticleController {
         long categoryId = ctx.formParamAsClass("categoryId", Long.class).getOrDefault(null);
 
         Category category = new QCategory()
-            .id.equalTo(categoryId)
-            .findOne();
+                .id.equalTo(categoryId)
+                .findOne();
 
         Article article = new Article(title, body, category);
         article.save();
@@ -56,8 +56,8 @@ public final class ArticleController {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
 
         Article article = new QArticle()
-            .id.equalTo(id)
-            .findOne();
+                .id.equalTo(id)
+                .findOne();
 
         ctx.attribute("article", article);
         ctx.render("articles/show.html");
@@ -66,11 +66,12 @@ public final class ArticleController {
     public static Handler editArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
+
+        List<Category> categories = new QCategory().findList();
+
         Article article = new QArticle()
                 .id.equalTo(id)
                 .findOne();
-        List<Category> categories = new QCategory()
-                .findList();
         ctx.attribute("categories", categories);
         ctx.attribute("article", article);
         ctx.render("articles/edit.html");
@@ -80,24 +81,26 @@ public final class ArticleController {
     public static Handler updateArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        long categoryId = ctx.pathParamAsClass("categoryId", Long.class).getOrDefault(null);
         String title = ctx.formParam("title");
         String body = ctx.formParam("body");
+        long categoryId = ctx.formParamAsClass("categoryId", Long.class).getOrDefault(null);
+
         new QArticle()
                 .id.equalTo(id)
                 .asUpdate()
                 .set("title", title)
                 .set("body", body)
-                .set("category_Id", categoryId)
+                .set("category", categoryId)
                 .update();
+
         ctx.sessionAttribute("flash", "Статья успешно создана");
         ctx.redirect("/articles");
-        // END
     };
 
     public static Handler deleteArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
+
         Article article = new QArticle()
                 .id.equalTo(id)
                 .findOne();
@@ -109,11 +112,13 @@ public final class ArticleController {
     public static Handler destroyArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
+
         new QArticle()
                 .id.equalTo(id)
                 .delete();
-        ctx.redirect("/articles");
+
         ctx.sessionAttribute("flash", "Статья успешно удалена");
+        ctx.redirect("/articles");
         // END
     };
 }
