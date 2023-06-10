@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 // BEGIN
+@Getter
+@Setter
 @Entity
 // END
 public class Person {
@@ -26,6 +28,10 @@ public class Person {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {
