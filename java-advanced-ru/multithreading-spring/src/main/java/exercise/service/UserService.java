@@ -20,7 +20,6 @@ public class UserService {
     }
 
     // BEGIN
-    @Test
     public Mono<User> create(User user) {
         return userRepository.save(user);
     }
